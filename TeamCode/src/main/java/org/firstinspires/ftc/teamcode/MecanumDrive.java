@@ -22,9 +22,10 @@ public class MecanumDrive extends LinearOpMode {
 
     // Sensor declarations
     ColorSensor colorSensor;
-    
+
     public void runOpMode() throws InterruptedException {
 
-    }
+    }// OpMode end
 
-}
+
+}// class end

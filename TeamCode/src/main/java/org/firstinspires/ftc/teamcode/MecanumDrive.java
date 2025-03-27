@@ -27,22 +27,5 @@ public class MecanumDrive extends LinearOpMode {
 
     }// OpMode end
 
-<<<<<<< HEAD
 
 }// class end
-=======
-}
-<<<<<<< HEAD
-//poopoo
-=======
-
-
-
-//poopoo
-
-
-
-
-
-
->>>>>>> 59e84832ffdc1eb82d05b0578ebe674f5212ca66

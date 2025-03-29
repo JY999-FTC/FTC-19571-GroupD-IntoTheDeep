@@ -51,7 +51,7 @@ public class GroupD_Test extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-
+        //hello sigma
         // While loop runs multiple times per second
         while (opModeIsActive()) {
 

@@ -36,7 +36,7 @@ public class GroupD_Test extends LinearOpMode {
         MotorT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         MotorT.setTargetPosition(0);
         MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        MotorT.setVelocity(100);
+        MotorT.setVelocity(500);
 
         // Set up Servo
         ServoT.setPosition(0);
@@ -45,9 +45,6 @@ public class GroupD_Test extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
-        MotorT.setPower(100);
-        MotorT.setVelocity(100);
 
 
         // While loop runs multiple times per second

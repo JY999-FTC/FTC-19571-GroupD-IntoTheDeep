@@ -86,8 +86,20 @@ public class GroupD_Derek extends LinearOpMode {
 
 <<<<<<< HEAD
 }// class end
-//fontaine is a black boi monk
+//Derek is a black boi monk
 //Jayden has severe autismey
 =======
 }// class end
 >>>>>>> 8d20e5b5b9132c16e4da122016f5da7bcfe90d80
+//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk
+//Derek is a black boi monk

@@ -1,6 +1,11 @@
+/*
+Author: Jerome Yang
+Start: 3/29/2025
+End: #/##/####
+Purpose: FTC 19571 The Robo Brigade Team D testbed robot code.
+*/
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cCompassSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -70,13 +75,13 @@ public class GroupD_Test extends LinearOpMode {
 
 
     // this is a method outside of the while loop, can be used inside the loop. Tlelmentry is the display on the right, can display text & images.
-    public void updateTelementry() {
-        telemetry.addData("Left JoyStick: ", gamepad1.right_stick_x);
+    public void updateTelemetry() {
+        telemetry.addData("Left JoyStick: ", gamepad1.left_stick_x);
         telemetry.addLine();
-        telemetry.addData("Right JoyStick: ", gamepad1.left_stick_x);
+        telemetry.addData("Right JoyStick: ", gamepad1.right_stick_x);
         telemetry.addLine();
         telemetry.update();
     }//update telementry end
 
-    
+
 }// class end

@@ -223,7 +223,7 @@ public class Refrence_TeamB_OpMode_Meet3 extends LinearOpMode {
 
                     if (flag[firstTime]){
                         drive_factor = 1;
-                        setIdle();// set slowly go to IDLE position
+                        setIdle();// set slowly go to IDLE Position
                         flag[firstTime] = false;
                     }
 

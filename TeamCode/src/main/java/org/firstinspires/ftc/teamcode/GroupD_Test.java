@@ -64,7 +64,7 @@ public class GroupD_Test extends LinearOpMode {
 
             // move servo
             if (gamepad1.left_stick_x != 0) {
-                servoPosition += (int) (gamepad1.left_stick_x * 0.5);
+                servoPosition += (int) gamepad1.left_stick_x;
                 ServoT.setPosition(servoPosition);
             }
 

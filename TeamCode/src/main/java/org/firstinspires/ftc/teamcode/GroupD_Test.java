@@ -44,9 +44,9 @@ public class GroupD_Test extends LinearOpMode {
 
 
         // Set up motor
-        MotorT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MotorT.setPower(0.1);
-        MotorT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        MotorT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the encoder to 0
+        MotorT.setPower(1); // Power is the electricity given. from -1(reverse full power) to 1 (full power)
+        MotorT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // if no electricity then use power to stop motor. Good for linear slidwe
         MotorT.setTargetPosition(0);
         MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MotorT.setVelocity(1000);
@@ -80,7 +80,7 @@ public class GroupD_Test extends LinearOpMode {
 
             // Move Servo
             if (gamepad1.left_stick_x != 0) {
-                servoPosition += gamepad1.left_stick_x * 0.1;
+                servoPosition += gamepad1.left_stick_x * 0.001;
                 ServoT.setPosition(servoPosition);// position only for servo, CRServo is setDirection()
             }
 
@@ -106,9 +106,13 @@ public class GroupD_Test extends LinearOpMode {
         telemetry.addLine();
         telemetry.addData("Right JoyStick: ", gamepad1.right_stick_x);
         telemetry.addLine();
-        telemetry.addData("Motor Position:", motorPosition);
+        telemetry.addData("Motor Target Position(Only w/encoder):", motorPosition);
         telemetry.addLine();
-        telemetry.addData("Servo Position: ", servoPosition);
+        telemetry.addData("Servo Target Position(Only Servo Mode): ", servoPosition);
+        telemetry.addLine();
+        telemetry.addData("Motor Actual Position:", MotorT.getCurrentPosition());
+        telemetry.addLine();
+        telemetry.addData("Servo Actual Position: ", ServoT.getPosition());
         telemetry.addLine();
         telemetry.update();
     }//update telemetry end

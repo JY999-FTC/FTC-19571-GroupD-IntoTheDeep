@@ -45,7 +45,7 @@ public class GroupD_Test extends LinearOpMode {
         MotorT.setPower(100);
         MotorT.setVelocity(100);
 
-
+        //hi jerome
         while (opModeIsActive()) {
 
             target += gamepad1.right_stick_x;

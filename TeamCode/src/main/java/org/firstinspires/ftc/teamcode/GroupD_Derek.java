@@ -84,8 +84,4 @@ public class GroupD_Derek extends LinearOpMode {
     }//update telementry end
 
 
-<<<<<<< HEAD
 }// class end
-=======
-}// class end
->>>>>>> 8d20e5b5b9132c16e4da122016f5da7bcfe90d80

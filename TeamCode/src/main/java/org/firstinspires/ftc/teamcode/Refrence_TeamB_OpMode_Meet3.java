@@ -63,7 +63,7 @@ public class Refrence_TeamB_OpMode_Meet3 extends LinearOpMode {
     // extend linear slide variable
     int extendSlide_target_position = 0;
     int extendSlide_rest_position = 0;
-    int extend_intakeSample = 800 - 465;// 800 - 465 (intake interval) b/c start at servoPosition 1
+    int extend_intakeSample = 800 - 465;// 800 - 465 (intake interval) b/c start at position 1
     int extendSlide_intakeSample_Interval = 465;
     int extend_intakeSpecimens = 0;
     int extend_sampleHigh = 10000;
@@ -223,7 +223,7 @@ public class Refrence_TeamB_OpMode_Meet3 extends LinearOpMode {
 
                     if (flag[firstTime]){
                         drive_factor = 1;
-                        setIdle();// set slowly go to IDLE servoPosition
+                        setIdle();// set slowly go to IDLE Position
                         flag[firstTime] = false;
                     }
 

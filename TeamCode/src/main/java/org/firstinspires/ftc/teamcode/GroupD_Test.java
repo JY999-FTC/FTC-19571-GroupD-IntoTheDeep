@@ -17,8 +17,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class GroupD_Test extends LinearOpMode {
 
     // Variables
-    int target = 0;
-    int position = 0;
+    int motorPosition = 0;
+    int servoPosition = 0;
 
     // Declarations of hardware, Best practice to declare in class because if declare in runOpMode can only be used in there
     DcMotorEx MotorT;
@@ -57,14 +57,14 @@ public class GroupD_Test extends LinearOpMode {
 
             // move motor
             if (gamepad1.right_stick_x != 0) {
-                target += gamepad1.right_stick_x;
-                MotorT.setTargetPosition(target);
+                motorPosition += gamepad1.right_stick_x;
+                MotorT.setTargetPosition(motorPosition);
             }
 
             // move servo
             if (gamepad1.right_stick_x != 0) {
-                position += gamepad1.left_stick_x;
-                ServoT.setPosition(position);
+                servoPosition = (int)gamepad1.left_stick_x;
+                ServoT.setPosition(servoPosition);
             }
 
             updateTelemetry();
@@ -80,8 +80,12 @@ public class GroupD_Test extends LinearOpMode {
         telemetry.addLine();
         telemetry.addData("Right JoyStick: ", gamepad1.right_stick_x);
         telemetry.addLine();
+        telemetry.addData("Motor Position:", motorPosition);
+        telemetry.addLine();
+        telemetry.addData("Servo Position: ", servoPosition);
+        telemetry.addLine();
         telemetry.update();
-    }//update telementry end
+    }//update telemetry end
 
 
 }// class end

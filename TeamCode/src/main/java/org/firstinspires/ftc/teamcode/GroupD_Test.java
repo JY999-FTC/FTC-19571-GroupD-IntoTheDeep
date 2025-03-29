@@ -46,14 +46,11 @@ public class GroupD_Test extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-<<<<<<< Updated upstream
         MotorT.setPower(100);
         MotorT.setVelocity(100);
 
-        //hi jerome
-=======
+
         // While loop runs multiple times per second
->>>>>>> Stashed changes
         while (opModeIsActive()) {
 
             // move motor

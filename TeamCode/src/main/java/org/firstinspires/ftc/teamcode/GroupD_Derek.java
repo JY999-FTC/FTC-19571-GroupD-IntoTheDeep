@@ -85,4 +85,4 @@ public class GroupD_Derek extends LinearOpMode {
 
 
 }// class end
-//fontaine is a black boi monkey
+//derek has severe autism

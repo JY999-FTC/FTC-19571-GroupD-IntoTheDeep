@@ -11,9 +11,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class GroupD_Test extends LinearOpMode {
 
+    int target = 0;
+
+    int position = 0;
+
     DcMotorEx MotorT;
 
     Servo ServoT;
+
+    @Override
 
     public void runOpMode() throws InterruptedException {
 
@@ -29,25 +35,30 @@ public class GroupD_Test extends LinearOpMode {
         MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MotorT.setVelocity(0);
 
-        ServoT.setPosition(0);
+        ServoT.setPosition(0.5);
 
 
         waitForStart();
 
         if (isStopRequested()) return;
 
+        MotorT.setPower(100);
+        MotorT.setVelocity(100);
+
 
         while (opModeIsActive()) {
 
-            if (gamepad1.right_stick_button || gamepad1.left_stick_button) {
+            if (gamepad1.right_stick_button) {
 
-                MotorT.setVelocity(gamepad1.right_stick_x);
+                target += gamepad1.right_stick_x;
+                MotorT.setTargetPosition(target);
 
             }
 
             if (gamepad1.left_stick_button) {
 
-                ServoT.setPosition(gamepad1.right_stick_x);
+                position += gamepad1.left_stick_x;
+                ServoT.setPosition(position);
 
             }
 

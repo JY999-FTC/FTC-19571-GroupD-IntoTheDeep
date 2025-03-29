@@ -47,13 +47,12 @@ public class GroupD_Test extends LinearOpMode {
         MotorT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Reset the encoder to 0
         MotorT.setPower(1); // Power is the electricity given. from -1(reverse full power) to 1 (full power)
         MotorT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // if no electricity then use power to stop motor. Good for linear slidwe
-        MotorT.setTargetPosition(0);
-        MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        MotorT.setVelocity(1000);
+        MotorT.setTargetPosition(0); // Target position of robo is 0
+        MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION); // Spin to the target position
+        MotorT.setVelocity(2000); // Uses Encoder to detect and adjust velocity to constant a RPM
 
         // Set up Servo
-        ServoT.resetDeviceConfigurationForOpMode();
-        ServoT.setPosition(0);
+        ServoT.setPosition(0); // Reset the servo, if CRServo then will spin
 
         // Wait for start button
         waitForStart();
@@ -80,7 +79,7 @@ public class GroupD_Test extends LinearOpMode {
 
             // Move Servo
             if (gamepad1.left_stick_x != 0) {
-                servoPosition += gamepad1.left_stick_x * 0.001;
+                servoPosition += gamepad1.left_stick_x * 0.002;
                 ServoT.setPosition(servoPosition);// position only for servo, CRServo is setDirection()
             }
 

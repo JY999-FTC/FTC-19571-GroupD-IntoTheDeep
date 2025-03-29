@@ -1,3 +1,9 @@
+/*
+Author: Jerome Yang
+Start: 3/27/2025
+End: #/##/####
+Purpose: FTC 19571 The Robo Brigade Team D robot chassis code.
+*/
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

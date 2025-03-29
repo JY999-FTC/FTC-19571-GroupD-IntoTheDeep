@@ -3,6 +3,8 @@ Author: Jerome Yang
 Start: 9/19/2024
 End: #/##/####
 Purpose: FTC 19571 The Robo Brigade Team B 24-25 season robot code
+
+This is a copy of that code with different name
 */
 package org.firstinspires.ftc.teamcode;
 

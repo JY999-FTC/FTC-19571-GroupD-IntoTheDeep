@@ -29,13 +29,13 @@ public class GroupD_Test extends LinearOpMode {
 
 
         MotorT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MotorT.setPower(1);
+        MotorT.setPower(0);
         MotorT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         MotorT.setTargetPosition(0);
         MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         MotorT.setVelocity(0);
 
-        ServoT.setPosition(0.5);
+        ServoT.setPosition(0);
 
 
         waitForStart();
@@ -48,19 +48,12 @@ public class GroupD_Test extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (gamepad1.right_stick_button) {
+            target += gamepad1.right_stick_x;
+            MotorT.setTargetPosition(target);
 
-                target += gamepad1.right_stick_x;
-                MotorT.setTargetPosition(target);
+            position += gamepad1.left_stick_x;
+            ServoT.setPosition(position);
 
-            }
-
-            if (gamepad1.left_stick_button) {
-
-                position += gamepad1.left_stick_x;
-                ServoT.setPosition(position);
-
-            }
 
         }
 

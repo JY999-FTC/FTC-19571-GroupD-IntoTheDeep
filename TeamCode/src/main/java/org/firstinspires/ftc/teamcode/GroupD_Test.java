@@ -11,10 +11,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class GroupD_Test extends LinearOpMode {
 
+    // Variables
     int target = 0;
-
     int position = 0;
 
+    // Declarations of hardware, Best practice to declare in class because if declare in runOpMode can only be used in there
     DcMotorEx MotorT;
 
     Servo ServoT;
@@ -23,42 +24,54 @@ public class GroupD_Test extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
 
+        // Declarations of hardware, make sure name & configuration matches
         MotorT = hardwareMap.get(DcMotorEx.class, "MotorT");
 
         ServoT = hardwareMap.get(Servo.class, "ServoT");
 
 
+        // Set up motor
         MotorT.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MotorT.setPower(0);
+        MotorT.setPower(100);
         MotorT.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         MotorT.setTargetPosition(0);
         MotorT.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        MotorT.setVelocity(0);
+        MotorT.setVelocity(100);
 
+        // Set up Servo
         ServoT.setPosition(0);
 
-
+        // Wait for start button
         waitForStart();
 
         if (isStopRequested()) return;
 
+<<<<<<< Updated upstream
         MotorT.setPower(100);
         MotorT.setVelocity(100);
 
         //hi jerome
+=======
+        // While loop runs multiple times per second
+>>>>>>> Stashed changes
         while (opModeIsActive()) {
 
-            target += gamepad1.right_stick_x;
-            MotorT.setTargetPosition(target);
+            // move motor
+            if (gamepad1.right_stick_x != 0) {
+                target += gamepad1.right_stick_x;
+                MotorT.setTargetPosition(target);
+            }
 
-            position += gamepad1.left_stick_x;
-            ServoT.setPosition(position);
+            // move servo
+            if (gamepad1.right_stick_x != 0) {
+                position += gamepad1.left_stick_x;
+                ServoT.setPosition(position);
+            }
 
-
-        }
+        }// while end
 
 
 
     }// OpMode end
 
-}
+}// class end

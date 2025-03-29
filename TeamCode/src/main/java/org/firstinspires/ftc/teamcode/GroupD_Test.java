@@ -62,10 +62,21 @@ public class GroupD_Test extends LinearOpMode {
                 ServoT.setPosition(position);
             }
 
+            updateTelemetry();
+
         }// while end
-
-
 
     }// OpMode end
 
+
+    // this is a method outside of the while loop, can be used inside the loop. Tlelmentry is the display on the right, can display text & images.
+    public void updateTelementry() {
+        telemetry.addData("Left JoyStick: ", gamepad1.right_stick_x);
+        telemetry.addLine();
+        telemetry.addData("Right JoyStick: ", gamepad1.left_stick_x);
+        telemetry.addLine();
+        telemetry.update();
+    }//update telementry end
+
+    
 }// class end

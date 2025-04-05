@@ -74,7 +74,7 @@ public class GroupD_Derek extends LinearOpMode {
     }// OpMode end
 
 
-    // this is a method outside of the while loop, can be used inside the loop. Tlelmentry is the display on the right, can display text & images.
+    // this is a method outside of the while loop, can be used inside the loop. Telmentry is the display on the right, can display text & images.
     public void updateTelemetry() {
         telemetry.addData("Left JoyStick: ", gamepad1.left_stick_x);
         telemetry.addLine();

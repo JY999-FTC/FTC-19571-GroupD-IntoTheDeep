@@ -63,13 +63,13 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         while(opModeIsActive()){
 
             if (gamepad1.dpad_up)
-                moveMotor(leftTop_Motor, 100);
+                moveMotor(leftTop_Motor, 50);
             else if (gamepad1.dpad_left)
-                moveMotor(leftBot_Motor, 100);
+                moveMotor(leftBot_Motor, 50);
             else if (gamepad1.dpad_right)
-                moveMotor(rightTop_Motor, 100);
+                moveMotor(rightTop_Motor, 50);
             else if (gamepad1.dpad_down)
-                moveMotor(rightBot_Motor, 100);
+                moveMotor(rightBot_Motor, 50);
 
             if (gamepad1.x)
                 moveCRServo(leftIntake_Servo, 0.5);

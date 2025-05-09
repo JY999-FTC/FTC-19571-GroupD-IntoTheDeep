@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
@@ -42,6 +43,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     //@Override
     public void runOpMode() throws InterruptedException {
 
+        // declare hardware position
         leftTop_Motor = hardwareMap.get(DcMotorEx.class, "leftTop_Motor");
         rightTop_Motor = hardwareMap.get(DcMotorEx.class, "rightTop_Motor");
         leftBot_Motor = hardwareMap.get(DcMotorEx.class, "leftBot_Motor");
@@ -55,6 +57,23 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlide_Servo");
         //outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
         color_Sensor = hardwareMap.get(ColorSensor.class,"color_Sensor");
+
+        // reverse because it the only one spinning in wrong direction idk
+        leftTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Reset the linear slide
+        linearSlide_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        linearSlide_Motor.setPower(1);
+        linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlide_Motor.setTargetPosition(0);
+        linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlide_Motor.setVelocity(0);
+
+        leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBot_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBot_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
 
@@ -72,12 +91,6 @@ public class GroupD_OpMode_Test extends LinearOpMode {
                 moveMotor(rightTop_Motor, 50);
             else if (gamepad1.dpad_down)
                 moveMotor(rightBot_Motor, 50);
-            else {
-                leftTop_Motor.setVelocity(0);
-                leftBot_Motor.setVelocity(0);
-                rightTop_Motor.setVelocity(0);
-                rightBot_Motor.setVelocity(0);
-            }
 
             if (gamepad2.right_stick_x != 0){
                 moveCRServo(leftIntake_Servo, gamepad1.right_stick_x);
@@ -138,6 +151,18 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
     // Telemetry method
     public void updateTelemetry() {
+        telemetry.addData("leftTop_Motor: ", leftTop_Motor.getVelocity());
+        telemetry.addData("leftBot_Motor: ", leftBot_Motor.getVelocity());
+        telemetry.addData("rightTop_Motor: ", rightTop_Motor.getVelocity());
+        telemetry.addData("rightBot_Motor: ", rightBot_Motor.getVelocity());
+        telemetry.addLine();
+        telemetry.addData("leftIntake_Servo: ", leftIntake_Servo.getPower());
+        telemetry.addData("rightIntake_Servo: ", rightIntake_Servo.getPower());
+        telemetry.addLine();
+        telemetry.addData("rotateIntake_Servo: ", rotateIntake_Servo.getPosition());
+        telemetry.addLine();
+        telemetry.addData("linearSlide_Servo: ", linearSlide_Servo.getPosition());
+        telemetry.addLine();
         telemetry.addData("Red: ", color_Sensor.red());
         telemetry.addData("Green: ", color_Sensor.green());
         telemetry.addData("Blue: ", color_Sensor.blue());

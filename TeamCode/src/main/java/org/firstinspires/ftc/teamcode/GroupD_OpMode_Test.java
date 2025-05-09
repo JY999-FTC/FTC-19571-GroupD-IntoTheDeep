@@ -60,7 +60,10 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
         // reverse because it the only one spinning in wrong direction idk
         leftTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         // Reset the linear slide
         linearSlide_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

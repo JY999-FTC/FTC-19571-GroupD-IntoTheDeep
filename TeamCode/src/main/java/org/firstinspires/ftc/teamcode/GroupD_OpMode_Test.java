@@ -60,7 +60,9 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        while(opModeIsActive()){
+        while(opModeIsActive()) {
+
+            driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
 
             if (gamepad1.dpad_up)
                 moveMotor(leftTop_Motor, 50);
@@ -70,15 +72,23 @@ public class GroupD_OpMode_Test extends LinearOpMode {
                 moveMotor(rightTop_Motor, 50);
             else if (gamepad1.dpad_down)
                 moveMotor(rightBot_Motor, 50);
+            else {
+                leftTop_Motor.setVelocity(0);
+                leftBot_Motor.setVelocity(0);
+                rightTop_Motor.setVelocity(0);
+                rightBot_Motor.setVelocity(0);
+            }
 
-            if (gamepad1.x)
-                moveCRServo(leftIntake_Servo, 0.5);
-            else if (gamepad1.b)
-                moveCRServo(rightIntake_Servo, 0.5);
-            else if (gamepad1.y)
-                moveServo(rotateIntake_Servo, 0.5);
-            else if (gamepad1.a)
-                moveServo(linearSlide_Servo, 0.5);
+            if (gamepad2.right_stick_x != 0){
+                moveCRServo(leftIntake_Servo, gamepad1.right_stick_x);
+                moveCRServo(rightIntake_Servo, gamepad1.right_stick_x);
+            }
+            else if (gamepad2.right_stick_y != 0)
+                moveServo(rotateIntake_Servo, gamepad1.right_stick_y);
+            if (gamepad2.left_stick_x != 0)
+                moveServo(linearSlide_Servo, gamepad1.left_stick_x);
+
+
 
             updateTelemetry();
 

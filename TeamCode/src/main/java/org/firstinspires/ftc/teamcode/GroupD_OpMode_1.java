@@ -7,6 +7,7 @@ Purpose: FTC 19571 The Robo Brigade Team D robot chassis code.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -14,13 +15,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class GroupD_BasicDrive extends LinearOpMode {
+public class GroupD_OpMode_1 extends LinearOpMode {
 
     // Motor declarations
     DcMotorEx leftTop_Motor;
-    DcMotorEx leftBottom_Motor;
+    DcMotorEx leftBot_Motor;
     DcMotorEx rightTop_Motor;
-    DcMotorEx rightBottom_Motor;
+    DcMotorEx rightBot_Motor;
+    DcMotorEx linearSlide_Motor;
 
 
     // Servo declarations
@@ -32,7 +34,7 @@ public class GroupD_BasicDrive extends LinearOpMode {
     Servo outtake_Servo;
 
     // Sensor declarations
-    ColorSensor colorSensor;
+    ColorSensor color_Sensor;
 
     // Variable declarations
     int driveTrain_Factor = 1;
@@ -40,18 +42,32 @@ public class GroupD_BasicDrive extends LinearOpMode {
     //@Override
     public void runOpMode() throws InterruptedException {
 
-        leftTop_Motor = hardwareMap.get(DcMotorEx.class, "leftTopMotor");
-        rightTop_Motor = hardwareMap.get(DcMotorEx.class, "rightTopMotor");
-        leftBottom_Motor = hardwareMap.get(DcMotorEx.class, "leftBottomMotor");
-        rightBottom_Motor = hardwareMap.get(DcMotorEx.class, "rightBottomMotor");
+        leftTop_Motor = hardwareMap.get(DcMotorEx.class, "leftTop_Motor");
+        rightTop_Motor = hardwareMap.get(DcMotorEx.class, "rightTop_Motor");
+        leftBot_Motor = hardwareMap.get(DcMotorEx.class, "leftBot_Motor");
+        rightBot_Motor = hardwareMap.get(DcMotorEx.class, "rightBot_Motor");
+        linearSlide_Motor = hardwareMap.get(DcMotorEx.class, "linearSlide_Motor");
 
-        leftIntake_Servo = hardwareMap.get(CRServo.class,"leftIntakeServo");
-        rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntakeServo");
-        blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntakeServo");
-        rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntakeServo");
-        linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlideServo");
-        outtake_Servo = hardwareMap.get(Servo.class,"outtakeServo");
-        colorSensor = hardwareMap.get(ColorSensor.class,"colorSensor");
+        leftIntake_Servo = hardwareMap.get(CRServo.class,"leftIntake_Servo");
+        rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
+        //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
+        rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
+        linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlide_Servo");
+        outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
+        color_Sensor = hardwareMap.get(ColorSensor.class,"color_Sensor");
+
+        waitForStart();
+
+        if (isStopRequested()) return;
+
+        while(opModeIsActive()){
+
+
+
+
+        }
+
+
 
     }// OpMode end
 
@@ -75,9 +91,9 @@ public class GroupD_BasicDrive extends LinearOpMode {
         double backRightPower = (y + x - rx) / denominator;
 
         leftTop_Motor.setPower(frontLeftPower * driveTrain_Factor);
-        leftBottom_Motor.setPower(frontRightPower * driveTrain_Factor);
+        leftBot_Motor.setPower(frontRightPower * driveTrain_Factor);
         rightTop_Motor.setPower(backLeftPower * driveTrain_Factor);
-        rightBottom_Motor.setPower(backRightPower * driveTrain_Factor);
+        rightBot_Motor.setPower(backRightPower * driveTrain_Factor);
     }// controller drive end
 
     // Telemetry method

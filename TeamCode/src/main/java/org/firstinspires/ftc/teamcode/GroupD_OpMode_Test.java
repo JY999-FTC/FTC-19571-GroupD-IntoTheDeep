@@ -45,8 +45,8 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
         // declare hardware position
         leftTop_Motor = hardwareMap.get(DcMotorEx.class, "leftTop_Motor");
-        rightTop_Motor = hardwareMap.get(DcMotorEx.class, "rightTop_Motor");
         leftBot_Motor = hardwareMap.get(DcMotorEx.class, "leftBot_Motor");
+        rightTop_Motor = hardwareMap.get(DcMotorEx.class, "rightTop_Motor");
         rightBot_Motor = hardwareMap.get(DcMotorEx.class, "rightBot_Motor");
         linearSlide_Motor = hardwareMap.get(DcMotorEx.class, "linearSlide_Motor");
 
@@ -60,9 +60,9 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
         // reverse because it the only one spinning in wrong direction idk
         leftTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        //leftBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         //rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        //rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // Reset the linear slide
@@ -86,7 +86,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
             driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
 
-            /*
+
             if (gamepad1.dpad_up)
                 moveMotor(leftTop_Motor, 50);
             else if (gamepad1.dpad_left)
@@ -95,16 +95,16 @@ public class GroupD_OpMode_Test extends LinearOpMode {
                 moveMotor(rightTop_Motor, 50);
             else if (gamepad1.dpad_down)
                 moveMotor(rightBot_Motor, 50);
-             */
+
 
             //if (gamepad2.right_stick_x != 0){
-            moveCRServo(leftIntake_Servo, gamepad1.right_stick_x);
-            moveCRServo(rightIntake_Servo, -gamepad1.right_stick_x);
+            moveCRServo(leftIntake_Servo, gamepad2.right_stick_x);
+            moveCRServo(rightIntake_Servo, -gamepad2.right_stick_x);
             //}
             //if (gamepad2.right_stick_y != 0)
-            moveServo(rotateIntake_Servo, gamepad1.right_stick_y);
+            moveServo(rotateIntake_Servo, gamepad2.right_stick_y);
             //if (gamepad2.left_stick_x != 0)
-            moveServo(linearSlide_Servo, gamepad1.left_stick_x);
+            moveServo(linearSlide_Servo, gamepad2.left_stick_x); // correct
 
 
 
@@ -143,15 +143,15 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double frontLeftPower = (y + x + rx) / denominator;
-        double backLeftPower = (y - x + rx) / denominator;
-        double frontRightPower = (y - x - rx) / denominator;
-        double backRightPower = (y + x - rx) / denominator;
+        double leftTop_Power = (y + x + rx) / denominator;
+        double leftBot_Power = (y - x + rx) / denominator;
+        double rightTop_Power = (y - x - rx) / denominator;
+        double rightBot_Power = (y + x - rx) / denominator;
 
-        leftTop_Motor.setPower(frontLeftPower * driveTrain_Factor);
-        leftBot_Motor.setPower(frontRightPower * driveTrain_Factor);
-        rightTop_Motor.setPower(backLeftPower * driveTrain_Factor);
-        rightBot_Motor.setPower(backRightPower * driveTrain_Factor);
+        leftTop_Motor.setPower(leftTop_Power * driveTrain_Factor);
+        leftBot_Motor.setPower(leftBot_Power * driveTrain_Factor);
+        rightTop_Motor.setPower(rightTop_Power * driveTrain_Factor);
+        rightBot_Motor.setPower(rightBot_Power * driveTrain_Factor);
     }// controller drive end
 
     // Telemetry method

@@ -60,9 +60,9 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
         // reverse because it the only one spinning in wrong direction idk
         leftTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //leftBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         //rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // Reset the linear slide
@@ -86,6 +86,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
             driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
 
+            /*
             if (gamepad1.dpad_up)
                 moveMotor(leftTop_Motor, 50);
             else if (gamepad1.dpad_left)
@@ -94,15 +95,16 @@ public class GroupD_OpMode_Test extends LinearOpMode {
                 moveMotor(rightTop_Motor, 50);
             else if (gamepad1.dpad_down)
                 moveMotor(rightBot_Motor, 50);
+             */
 
-            if (gamepad2.right_stick_x != 0){
-                moveCRServo(leftIntake_Servo, gamepad1.right_stick_x);
-                moveCRServo(rightIntake_Servo, gamepad1.right_stick_x);
-            }
-            else if (gamepad2.right_stick_y != 0)
-                moveServo(rotateIntake_Servo, gamepad1.right_stick_y);
-            if (gamepad2.left_stick_x != 0)
-                moveServo(linearSlide_Servo, gamepad1.left_stick_x);
+            //if (gamepad2.right_stick_x != 0){
+            moveCRServo(leftIntake_Servo, gamepad1.right_stick_x);
+            moveCRServo(rightIntake_Servo, -gamepad1.right_stick_x);
+            //}
+            //if (gamepad2.right_stick_y != 0)
+            moveServo(rotateIntake_Servo, gamepad1.right_stick_y);
+            //if (gamepad2.left_stick_x != 0)
+            moveServo(linearSlide_Servo, gamepad1.left_stick_x);
 
 
 
@@ -154,10 +156,17 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
     // Telemetry method
     public void updateTelemetry() {
-        telemetry.addData("leftTop_Motor: ", leftTop_Motor.getVelocity());
-        telemetry.addData("leftBot_Motor: ", leftBot_Motor.getVelocity());
-        telemetry.addData("rightTop_Motor: ", rightTop_Motor.getVelocity());
-        telemetry.addData("rightBot_Motor: ", rightBot_Motor.getVelocity());
+        telemetry.addData("leftTop_Motor Power: ", leftTop_Motor.getPower());
+        telemetry.addData("leftTop_Motor Velocity: ", leftTop_Motor.getVelocity());
+        telemetry.addLine();
+        telemetry.addData("leftBot_Motor Power: ", leftBot_Motor.getPower());
+        telemetry.addData("leftBot_Motor Velocity: ", leftBot_Motor.getVelocity());
+        telemetry.addLine();
+        telemetry.addData("rightTop_Motor Power: ", rightTop_Motor.getPower());
+        telemetry.addData("rightTop_Motor Velocity: ", rightTop_Motor.getVelocity());
+        telemetry.addLine();
+        telemetry.addData("rightBot_Motor Power: ", rightBot_Motor.getPower());
+        telemetry.addData("rightBot_Motor Velocity: ", rightBot_Motor.getVelocity());
         telemetry.addLine();
         telemetry.addData("leftIntake_Servo: ", leftIntake_Servo.getPower());
         telemetry.addData("rightIntake_Servo: ", rightIntake_Servo.getPower());

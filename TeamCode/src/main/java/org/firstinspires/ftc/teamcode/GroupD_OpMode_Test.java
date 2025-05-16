@@ -25,20 +25,20 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     DcMotorEx rightBot_Motor;
     DcMotorEx linearSlide_Motor;
 
-
     // Servo declarations
     CRServo leftIntake_Servo;
     CRServo rightIntake_Servo;
     Servo blockIntake_Servo;
     Servo rotateIntake_Servo;
     Servo linearSlide_Servo;
-    Servo outtake_Servo;
+    Servo outtake_Servo; // 0.4-0.9
 
     // Sensor declarations
     ColorSensor color_Sensor;
 
     // Variable declarations
     int driveTrain_Factor = 1;
+    double outtake_Position = 0.6;
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -55,7 +55,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
         rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
         linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlide_Servo");
-        //outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
+        outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
         color_Sensor = hardwareMap.get(ColorSensor.class,"color_Sensor");
 
         // reverse because it the only one spinning in wrong direction idk
@@ -102,9 +102,22 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             moveCRServo(rightIntake_Servo, -gamepad2.right_stick_x);
             //}
             //if (gamepad2.right_stick_y != 0)
-            moveServo(rotateIntake_Servo, gamepad2.right_stick_y);
+            moveServo(rotateIntake_Servo, gamepad2.left_trigger);
             //if (gamepad2.left_stick_x != 0)
-            moveServo(linearSlide_Servo, gamepad2.left_stick_x); // correct
+            moveServo(linearSlide_Servo, gamepad2.right_trigger);
+
+            if (gamepad2.dpad_up)
+            {
+                outtake_Position += 0.1;
+                sleep(200);
+            }
+            if (gamepad2.dpad_down)
+            {
+                outtake_Position -= 0.1;
+                sleep(200);
+            }
+
+            moveServo(outtake_Servo, outtake_Position);
 
 
 
@@ -174,6 +187,9 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         telemetry.addData("rotateIntake_Servo: ", rotateIntake_Servo.getPosition());
         telemetry.addLine();
         telemetry.addData("linearSlide_Servo: ", linearSlide_Servo.getPosition());
+        telemetry.addLine();
+        telemetry.addData("outtake_Servo: ", outtake_Servo.getPosition());
+        telemetry.addData("outtake_Position: ", outtake_Position);
         telemetry.addLine();
         telemetry.addData("Red: ", color_Sensor.red());
         telemetry.addData("Green: ", color_Sensor.green());

@@ -86,6 +86,13 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
             driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
 
+            //gamepad1 is driver and gamepad2 is gunner
+
+            if (gamepad2.dpad_up) {
+                moveServo(rotateIntake_Servo, 1 );
+
+            }
+
 
             if (gamepad1.dpad_up)
                 moveMotor(leftTop_Motor, 50);

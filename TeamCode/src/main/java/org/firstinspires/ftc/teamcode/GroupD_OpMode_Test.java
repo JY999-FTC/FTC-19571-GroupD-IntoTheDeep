@@ -88,13 +88,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
             //gamepad1 is driver and gamepad2 is gunner
 
-            if (gamepad2.dpad_right) {
-                //trying to flip the intake thing
-                moveServo(rotateIntake_Servo, 1 );
-
-            }
-
-
+            //driver controls
             if (gamepad1.dpad_up)
                 moveMotor(leftTop_Motor, 50);
             else if (gamepad1.dpad_left)
@@ -114,6 +108,8 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             //if (gamepad2.left_stick_x != 0)
             moveServo(linearSlide_Servo, gamepad2.right_trigger);
 
+
+            //gunner controls
             if (gamepad2.dpad_up)
             {
                 outtake_Position += 0.1;
@@ -122,6 +118,12 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             if (gamepad2.dpad_down)
             {
                 outtake_Position -= 0.1;
+                sleep(200);
+            }
+            if (gamepad2.dpad_right)
+            {
+                //trying to flip the intake thing
+                moveServo(rotateIntake_Servo, 1 );
                 sleep(200);
             }
 

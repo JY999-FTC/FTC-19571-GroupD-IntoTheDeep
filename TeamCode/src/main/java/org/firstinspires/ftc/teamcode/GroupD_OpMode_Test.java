@@ -88,13 +88,14 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
             //gamepad1 is driver and gamepad2 is gunner
 
-            if (gamepad2.dpad_up) {
+            if (gamepad2.dpad_right) {
+                //trying to flip the intake thing
                 moveServo(rotateIntake_Servo, 1 );
 
             }
 
 
-            if (gamepad1.dpad_up)
+            if (gamepad1.dpad_right)
                 moveMotor(leftTop_Motor, 50);
             else if (gamepad1.dpad_left)
                 moveMotor(leftBot_Motor, 50);

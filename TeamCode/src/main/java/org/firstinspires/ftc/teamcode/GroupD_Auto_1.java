@@ -6,6 +6,7 @@ Purpose: FTC 19571 The Robo Brigade Team D robot test code.
 */
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -16,15 +17,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp
-public class GroupD_OpMode_Test extends LinearOpMode {
+@Autonomous
+
+public class GroupD_Auto_1 extends LinearOpMode {
 
     // Motor declarations
     DcMotorEx leftTop_Motor;
     DcMotorEx leftBot_Motor;
     DcMotorEx rightTop_Motor;
     DcMotorEx rightBot_Motor;
-    DcMotorEx linearSlide_Motor;
+    DcMotorEx linearSlide_Motor; // IDK CHECK
 
     // Servo declarations
     CRServo leftIntake_Servo;
@@ -35,16 +37,22 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     Servo outtake_Servo; // 0.4-0.9 (Down - Up)
 
     // Sensor declarations
-    ColorSensor color_Sensor;
+    ColorSensor color_Sensor; // No use rn
 
     // Variable declarations
+    public enum State { // State to know what code to run
+        INTAKE,
+        OUTTAKE,
+    }
+    State state = State.INTAKE; // a Instance of State
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
-    double[] stopTime = new double[10]; // change to array to have multiple timers
-    int driveTrain_Factor = 1;
-    int linearSlide_Motor_Position = 0;
-    double rotateIntake_Servo_Position = 0.5;
-    double linearSlide_Servo_Position = 0.5;
-    double outtake_Servo_Position = 0.6;
+    double[] stopTime = new double[2]; // change to array to have multiple timers
+    double driveTrain_Factor = 0.5; // Motor Power Multiplied by this
+    int linearSlide_Motor_Position = 100; // Start at Bottom IDK CHECK
+    double twoIntake_Servo_Power = 0;
+    double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
+    double linearSlide_Servo_Position = 0.7; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double outtake_Servo_Position = 0.4; // Start at Down 0.4-0.9 (Down - Up)
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -70,14 +78,14 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         //rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
         // Reset the linear slide
+        //linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE;
         linearSlide_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide_Motor.setPower(0.8);
+        linearSlide_Motor.setPower(1);
         linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide_Motor.setTargetPosition(0);
         linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide_Motor.setVelocity(200);
+        linearSlide_Motor.setVelocity(100);
 
         // When motor has zero power what does it do? BRAKE!!!
         leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -91,100 +99,34 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         // This check if you stop the code then stops the code
         if (isStopRequested()) return;
 
+        /// ALL CODE RUNNING IN HERE
         while(opModeIsActive()) {
 
-            // gamepad1 is driver and gamepad2 is gunner
+            //leftTop_Motor.setVelocity(0);
+            //leftBot_Motor.setVelocity(0);
+            //rightTop_Motor.setVelocity(0);
+            //rightBot_Motor.setVelocity(0);
 
-            // Drive normally
-            driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
+            leftTop_Motor.setPower(0.5);
+            leftBot_Motor.setPower(0.5);
+            rightTop_Motor.setPower(0.5);
+            rightBot_Motor.setPower(0.5);
 
-            if (gamepad2.left_bumper && timer(500, 1))
-            {
-                linearSlide_Motor_Position -= 10;
-                timer(0, 1);
-            }
-            if (gamepad2.right_bumper && timer(500, 2))
-            {
-                linearSlide_Motor_Position += 10;
-                timer(0, 2);
-            }
-            // Determine Servo Position
-            if (gamepad2.x && timer(500, 3))
-            {
-                rotateIntake_Servo_Position -= 0.1;
-                timer(0, 3);
-                //sleep(200);
-            }
+            sleep(2000);
 
-            if (gamepad2.y && timer(500, 4))
-            {
-                rotateIntake_Servo_Position += 0.1;
-                timer(0, 4);
-                //sleep(200);
-            }
-            if (gamepad2.dpad_left && timer(500, 5))
-            {
-                linearSlide_Servo_Position -= 0.1;
-                timer(0, 5);
-                //sleep(200);
-            }
+            leftTop_Motor.setPower(0);
+            leftBot_Motor.setPower(0);
+            rightTop_Motor.setPower(0);
+            rightBot_Motor.setPower(0);
 
-            if (gamepad2.dpad_right && timer(500, 6))
-            {
-                linearSlide_Servo_Position += 0.1;
-                timer(0, 6);
-                //sleep(200);
-            }
-            if (gamepad2.dpad_up && timer(500, 7))
-            {
-                outtake_Servo_Position += 0.1;
-                timer(0, 7);
-                //sleep(200);
-            }
-            if (gamepad2.dpad_down && timer(500, 8))
-            {
-                outtake_Servo_Position -= 0.1;
-                timer(0, 8);
-                //sleep(200);
-            }
-
-            // Move the Motor
-            linearSlide_Motor.setTargetPosition(linearSlide_Motor_Position);
-
-            // Move the Servos
-            moveCRServo(leftIntake_Servo, gamepad2.right_stick_x);
-            moveCRServo(rightIntake_Servo, -gamepad2.right_stick_x);
-
-            moveServo(rotateIntake_Servo, rotateIntake_Servo_Position);
-            moveServo(linearSlide_Servo, linearSlide_Servo_Position);
-            moveServo(outtake_Servo, outtake_Servo_Position);
-
-
+            sleep(100000);
 
             updateTelemetry();
 
         } // while opModeIsActive end
 
-
-
     }// OpMode end
-
-
-
     /// METHODS
-
-    // Motor Method
-    public void moveMotor(DcMotorEx motor, int velocity) {
-        motor.setVelocity(velocity);
-    }// move Motor end
-
-    // Servo Method
-    public void moveServo(Servo servo, double position) {
-        servo.setPosition(position);
-    }// move Servo end
-    public void moveCRServo(CRServo servo, double power) {
-        servo.setPower(power);
-    }// move Servo end
 
     // DriveTrain method
     public void driveTrain(double rightStickX, double rightStickY, double leftStickX) {
@@ -219,6 +161,9 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
     // Telemetry method
     public void updateTelemetry() {
+        telemetry.addData("State: ", state);
+        telemetry.addData("RunTime: ", runtime);
+        telemetry.addLine();
         telemetry.addData("leftTop_Motor Power: ", leftTop_Motor.getPower());
         telemetry.addData("leftTop_Motor Velocity: ", leftTop_Motor.getVelocity());
         telemetry.addData("leftTop_Motor Position: ", leftTop_Motor.getCurrentPosition());
@@ -235,10 +180,9 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         telemetry.addData("rightBot_Motor Velocity: ", rightBot_Motor.getVelocity());
         telemetry.addData("rightBot_Motor Position: ", rightBot_Motor.getCurrentPosition());
         telemetry.addLine();
-        telemetry.addData("linearSlide_Motor Power: ", linearSlide_Motor.getPower());
-        telemetry.addData("linearSlide_Motor Velocity: ", linearSlide_Motor.getVelocity());
-        telemetry.addData("linearSlide_Motor Position: ", linearSlide_Motor.getCurrentPosition());
-        telemetry.addData("linearSlide_Motor_Position: ", linearSlide_Motor_Position);
+        telemetry.addData("linearSlide_Motor Power", linearSlide_Motor.getPower());
+        telemetry.addData("linearSlide_Motor Velocity", linearSlide_Motor.getVelocity());
+        telemetry.addData("linearSlide_Motor Position", linearSlide_Motor.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("leftIntake_Servo: ", leftIntake_Servo.getPower());
         telemetry.addData("rightIntake_Servo: ", rightIntake_Servo.getPower());
@@ -258,6 +202,5 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         telemetry.addLine();
         telemetry.update();
     }//update telemetry end
-
 
 }// class end

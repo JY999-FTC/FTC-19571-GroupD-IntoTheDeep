@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp
 
-public class Refrence_TeamB_OpMode_Meet3 extends LinearOpMode {
+public class Reference_TeamB_OpMode_Meet3 extends LinearOpMode {
 
     // tim stuff idk
     public enum State {

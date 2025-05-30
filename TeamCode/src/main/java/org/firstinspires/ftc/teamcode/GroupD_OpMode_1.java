@@ -77,13 +77,13 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Reset the linear slide
-        //linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE;
+        linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlide_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlide_Motor.setPower(1);
         linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide_Motor.setTargetPosition(0);
         linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide_Motor.setVelocity(500);
+        linearSlide_Motor.setVelocity(600);
 
         // When motor has zero power what does it do? BRAKE!!!
         leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -176,6 +176,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
             // Move the Motors & Servos (Define How move in upper code then move here so less code required)
             linearSlide_Motor.setTargetPosition(linearSlide_Motor_Position);
+            linearSlide_Motor.setVelocity(100);
 
             leftIntake_Servo.setPower(twoIntake_Servo_Power);
             rightIntake_Servo.setPower(-twoIntake_Servo_Power);
@@ -229,23 +230,22 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         telemetry.addLine();
         telemetry.addData("leftTop_Motor Power: ", leftTop_Motor.getPower());
         telemetry.addData("leftTop_Motor Velocity: ", leftTop_Motor.getVelocity());
-        telemetry.addData("leftTop_Motor Position: ", leftTop_Motor.getCurrentPosition());
+        telemetry.addData("leftTop_Motor Current Position: ", leftTop_Motor.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("leftBot_Motor Power: ", leftBot_Motor.getPower());
         telemetry.addData("leftBot_Motor Velocity: ", leftBot_Motor.getVelocity());
-        telemetry.addData("leftBot_Motor Position: ", leftBot_Motor.getCurrentPosition());
+        telemetry.addData("leftBot_Motor Current Position: ", leftBot_Motor.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("rightTop_Motor Power: ", rightTop_Motor.getPower());
         telemetry.addData("rightTop_Motor Velocity: ", rightTop_Motor.getVelocity());
-        telemetry.addData("rightTop_Motor Position: ", rightTop_Motor.getCurrentPosition());
+        telemetry.addData("rightTop_Motor Current Position: ", rightTop_Motor.getCurrentPosition());
         telemetry.addLine();
         telemetry.addData("rightBot_Motor Power: ", rightBot_Motor.getPower());
         telemetry.addData("rightBot_Motor Velocity: ", rightBot_Motor.getVelocity());
-        telemetry.addData("rightBot_Motor Position: ", rightBot_Motor.getCurrentPosition());
+        telemetry.addData("rightBot_Motor Current Position: ", rightBot_Motor.getCurrentPosition());
         telemetry.addLine();
-        telemetry.addData("linearSlide_Motor Power: ", linearSlide_Motor.getPower());
         telemetry.addData("linearSlide_Motor Velocity: ", linearSlide_Motor.getVelocity());
-        telemetry.addData("linearSlide_Motor Position: ", linearSlide_Motor.getCurrentPosition());
+        telemetry.addData("linearSlide_Motor Current Position: ", linearSlide_Motor.getCurrentPosition());
         telemetry.addData("linearSlide_Motor_Position: ", linearSlide_Motor_Position);
         telemetry.addLine();
         telemetry.addData("leftIntake_Servo: ", leftIntake_Servo.getPower());

@@ -72,12 +72,13 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
 
         // Reset the linear slide
+        linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlide_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide_Motor.setPower(0.8);
+        linearSlide_Motor.setPower(1);
         linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide_Motor.setTargetPosition(0);
         linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide_Motor.setVelocity(200);
+        linearSlide_Motor.setVelocity(600);
 
         // When motor has zero power what does it do? BRAKE!!!
         leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -100,12 +101,12 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
             if (gamepad2.left_bumper && timer(500, 1))
             {
-                linearSlide_Motor_Position -= 10;
+                linearSlide_Motor_Position -= 100;
                 timer(0, 1);
             }
             if (gamepad2.right_bumper && timer(500, 2))
             {
-                linearSlide_Motor_Position += 10;
+                linearSlide_Motor_Position += 100;
                 timer(0, 2);
             }
             // Determine Servo Position

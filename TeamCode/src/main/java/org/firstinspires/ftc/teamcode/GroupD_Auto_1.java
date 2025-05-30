@@ -79,13 +79,12 @@ public class GroupD_Auto_1 extends LinearOpMode {
         rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Reset the linear slide
-        //linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE;
+        linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         linearSlide_Motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        linearSlide_Motor.setPower(1);
         linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide_Motor.setTargetPosition(0);
         linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide_Motor.setVelocity(100);
+        linearSlide_Motor.setVelocity(0);
 
         // When motor has zero power what does it do? BRAKE!!!
         leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

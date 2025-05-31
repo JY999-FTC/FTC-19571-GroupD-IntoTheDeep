@@ -2,7 +2,7 @@
 Author: Jerome Yang
 Start: 3/27/2025
 End: #/##/####
-Purpose: FTC 19571 The Robo Brigade Team D robot test code.
+Purpose: FTC 19571 The Robo Brigade Team D robot OpMode code.
 */
 package org.firstinspires.ftc.teamcode;
 
@@ -121,7 +121,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     // Linear Slide Position based on stick
                     linearSlide_Servo_Position += gamepad2.left_stick_y * 0.1; // 0.1-0.7 (Extended - Collapsed)
 
-                    // Make Sure its Withen The Parameters
+                    // Make Sure its Within The Parameters
                     if (linearSlide_Servo_Position > 0.7)
                         linearSlide_Servo_Position = 0.7;
                     else if (linearSlide_Servo_Position < 0.1)
@@ -176,7 +176,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
             // Move the Motors & Servos (Define How move in upper code then move here so less code required)
             linearSlide_Motor.setTargetPosition(linearSlide_Motor_Position);
-            linearSlide_Motor.setVelocity(100);
+            linearSlide_Motor.setVelocity(600);
 
             leftIntake_Servo.setPower(twoIntake_Servo_Power);
             rightIntake_Servo.setPower(-twoIntake_Servo_Power);

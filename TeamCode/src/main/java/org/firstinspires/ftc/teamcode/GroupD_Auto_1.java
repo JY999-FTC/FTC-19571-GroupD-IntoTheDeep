@@ -2,7 +2,7 @@
 Author: Jerome Yang
 Start: 3/27/2025
 End: #/##/####
-Purpose: FTC 19571 The Robo Brigade Team D robot test code.
+Purpose: FTC 19571 The Robo Brigade Team D robot Auto code.
 */
 package org.firstinspires.ftc.teamcode;
 

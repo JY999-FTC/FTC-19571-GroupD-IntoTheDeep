@@ -35,16 +35,18 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     Servo outtake_Servo; // 0.4-0.9 (Down - Up)
 
     // Sensor declarations
-    ColorSensor color_Sensor;
+    ColorSensor color_Sensor; // yellow: red: blue:
 
     // Variable declarations
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
     double[] stopTime = new double[10]; // change to array to have multiple timers
     int driveTrain_Factor = 1;
     int linearSlide_Motor_Position = 0;
+    double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0.5;
     double linearSlide_Servo_Position = 0.5;
     double outtake_Servo_Position = 0.6;
+    int sample_Color = 0; // 1 = yellow 2 = red 3 = blue 0 = idk none
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -99,6 +101,11 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             // Drive normally
             driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
 
+            twoIntake_Servo_Power = gamepad2.right_trigger - gamepad2.left_trigger;
+
+            // determine the color of the sample
+            sample_Color = determineColor(color_Sensor.red(), color_Sensor.green(), color_Sensor.blue());
+
             if (gamepad2.left_bumper && timer(500, 1))
             {
                 linearSlide_Motor_Position -= 100;
@@ -125,14 +132,14 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             }
             if (gamepad2.dpad_left && timer(500, 5))
             {
-                linearSlide_Servo_Position -= 0.1;
+                linearSlide_Servo_Position += 0.1;
                 timer(0, 5);
                 //sleep(200);
             }
 
             if (gamepad2.dpad_right && timer(500, 6))
             {
-                linearSlide_Servo_Position += 0.1;
+                linearSlide_Servo_Position -= 0.1;
                 timer(0, 6);
                 //sleep(200);
             }
@@ -153,8 +160,8 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             linearSlide_Motor.setTargetPosition(linearSlide_Motor_Position);
 
             // Move the Servos
-            moveCRServo(leftIntake_Servo, gamepad2.right_stick_x);
-            moveCRServo(rightIntake_Servo, -gamepad2.right_stick_x);
+            moveCRServo(leftIntake_Servo, -twoIntake_Servo_Power);
+            moveCRServo(rightIntake_Servo, twoIntake_Servo_Power);
 
             moveServo(rotateIntake_Servo, rotateIntake_Servo_Position);
             moveServo(linearSlide_Servo, linearSlide_Servo_Position);
@@ -216,7 +223,28 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             return false;
         }
         return runtime.milliseconds() - stopTime[indexOfTimer] > period;
-    }// timera end
+    }// timer end
+
+    // Determine the color of the sample
+    // 1 = yellow 2 = red 3 = blue 0 = idk none
+    public int determineColor(double red, double blue, double green) {
+        if (red > 50 && blue < 10 && green < 10)
+        {
+            return 2;
+        }
+        if (red < 10 && blue > 50 && green < 10)
+        {
+            return 3;
+        }
+        if (red < 30 && blue < 30 && green < 30)
+        {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+
+    } // determine color end
 
     // Telemetry method
     public void updateTelemetry() {
@@ -253,6 +281,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         telemetry.addData("outtake_Servo: ", outtake_Servo.getPosition());
         telemetry.addData("outtake_Servo_Position: ", outtake_Servo_Position);
         telemetry.addLine();
+        telemetry.addData("sample_Color: ", sample_Color);
         telemetry.addData("Red: ", color_Sensor.red());
         telemetry.addData("Green: ", color_Sensor.green());
         telemetry.addData("Blue: ", color_Sensor.blue());

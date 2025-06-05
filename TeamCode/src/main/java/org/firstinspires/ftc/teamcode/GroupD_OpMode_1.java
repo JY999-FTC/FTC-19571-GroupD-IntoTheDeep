@@ -46,11 +46,12 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
     double[] stopTime = new double[2]; // change to array to have multiple timers
     double driveTrain_Factor = 1; // Motor Power Multiplied by this
-    int linearSlide_Motor_Position = 100; // Start at Bottom IDK CHECK
+    int linearSlide_Motor_Position = 500; // Start at Bottom
     double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
-    double linearSlide_Servo_Position = 0.7; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
-    double outtake_Servo_Position = 0.4; // Start at Down 0.4-0.9 (Down - Up)
+    double linearSlide_Servo_Position = 0.5; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double outtake_Servo_Position = 0.35; // Start at Down 0.4-0.9 (Down - Up)
+    boolean inSequence = false;
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -119,40 +120,43 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                         rotateIntake_Servo_Position = 0; // Intake
 
                     // Linear Slide Position based on stick
-                    linearSlide_Servo_Position += gamepad2.left_stick_y * 0.1; // 0.1-0.7 (Extended - Collapsed)
+                    linearSlide_Servo_Position += gamepad2.left_stick_y * 0.05; // 0.1-0.7 (Extended - Collapsed)
 
                     // Make Sure its Within The Parameters
-                    if (linearSlide_Servo_Position > 0.7)
-                        linearSlide_Servo_Position = 0.7;
-                    else if (linearSlide_Servo_Position < 0.1)
-                        linearSlide_Servo_Position = 0.1;
+                    if (linearSlide_Servo_Position > 0.65)
+                        linearSlide_Servo_Position = 0.65;
+                    else if (linearSlide_Servo_Position < 0.15)
+                        linearSlide_Servo_Position = 0.15;
 
                     // Outtake Sequence
                     // Move the Sample near the Outtake
                     if (gamepad2.y)
                     {
                         linearSlide_Servo_Position = 0.5; // CHECK IDK
-                        rotateIntake_Servo_Position = 1;
+                        rotateIntake_Servo_Position = 0;
+                        inSequence = true;
                         timer(0, 0);
                     }
                     // Transfer the Sample to the Outtake
-                    if (timer(300, 0))
+                    if (inSequence && timer(5000, 0))
                     {
                         twoIntake_Servo_Power = 0.5;
-                        timer(0, 0);
+                        //timer(0, 0);
                     }
                     // Raise the Linear Slide to Outtake
-                    else if (timer(200, 0))
+                    if (inSequence && timer(8000, 0))
                     {
-                        linearSlide_Motor_Position = 1000; // IDK CHECK
-                        timer(0, 0);
+                        twoIntake_Servo_Power = 0;
+                        linearSlide_Motor_Position = 2000; // IDK CHECK
+                        //timer(0, 0);
                     }
                     // Reset Intake Components
-                    else if (timer(300, 0))
+                    if (inSequence && timer(10000, 0))
                     {
                         linearSlide_Servo_Position = 0.7;
                         rotateIntake_Servo_Position = 0;
-                        timer(0, 0);
+                        //inSequence = false;
+                        //timer(0, 0);
                         state = State.OUTTAKE;
                     }
 
@@ -160,15 +164,19 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                 case OUTTAKE:
 
                     // Move to outtake
-                    if (gamepad1.right_bumper) {
+                    if (gamepad1.right_bumper)
+                    {
                         outtake_Servo_Position = 0.9;
+                        //inSequence = true;
                         timer(0, 1);
                     }
                     // Wait, then return to Intake
-                    if (timer(800, 1)) {
+                    if (inSequence && timer(12000, 1))
+                    {
                         outtake_Servo_Position = 0.4;
-                        linearSlide_Motor_Position = 100; // IDK CHECK
-                        timer(0, 1);
+                        linearSlide_Motor_Position = 500; // IDK CHECK
+                        //inSequence = false;
+                        //timer(0, 1);
                         state = State.INTAKE;
                     }
 
@@ -176,7 +184,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
             // Move the Motors & Servos (Define How move in upper code then move here so less code required)
             linearSlide_Motor.setTargetPosition(linearSlide_Motor_Position);
-            linearSlide_Motor.setVelocity(600);
+            linearSlide_Motor.setVelocity(800);
 
             leftIntake_Servo.setPower(twoIntake_Servo_Power);
             rightIntake_Servo.setPower(-twoIntake_Servo_Power);
@@ -221,12 +229,19 @@ public class GroupD_OpMode_1 extends LinearOpMode {
             return false;
         }
         return runtime.milliseconds() - stopTime[indexOfTimer] > period;
-    }// timera end
+    }// timer end
 
     // Telemetry method
     public void updateTelemetry() {
         telemetry.addData("State: ", state);
         telemetry.addData("RunTime: ", runtime);
+        telemetry.addData("RunTime[0]: ", runtime.milliseconds());
+        telemetry.addData("RunTime[1]: ", runtime.milliseconds());
+        telemetry.addData("RunTime[0]-#: ", runtime.milliseconds() - stopTime[0]);
+        telemetry.addData("RunTime[1]-#: ", runtime.milliseconds() - stopTime[1]);
+        telemetry.addData("RunTime[0]-# tf: ", runtime.milliseconds() - stopTime[0] > 500);
+        telemetry.addData("RunTime[1]-# tf: ", runtime.milliseconds() - stopTime[1] > 500);
+        telemetry.addData("inSequence: ", inSequence);
         telemetry.addLine();
         telemetry.addData("leftTop_Motor Power: ", leftTop_Motor.getPower());
         telemetry.addData("leftTop_Motor Velocity: ", leftTop_Motor.getVelocity());

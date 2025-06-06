@@ -51,7 +51,8 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
     double linearSlide_Servo_Position = 0.5; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
     double outtake_Servo_Position = 0.35; // Start at Down 0.4-0.9 (Down - Up)
-    boolean inSequence = false;
+    boolean intake_To_Outtake = false;
+    boolean outtake_To_Intake = false;
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -134,28 +135,28 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     {
                         linearSlide_Servo_Position = 0.5; // CHECK IDK
                         rotateIntake_Servo_Position = 0;
-                        inSequence = true;
+                        intake_To_Outtake = true;
                         timer(0, 0);
                     }
                     // Transfer the Sample to the Outtake
-                    if (inSequence && timer(5000, 0))
+                    if (intake_To_Outtake && timer(5000, 0))
                     {
                         twoIntake_Servo_Power = 0.5;
                         //timer(0, 0);
                     }
                     // Raise the Linear Slide to Outtake
-                    if (inSequence && timer(8000, 0))
+                    if (intake_To_Outtake && timer(8000, 0))
                     {
                         twoIntake_Servo_Power = 0;
                         linearSlide_Motor_Position = 2000; // IDK CHECK
                         //timer(0, 0);
                     }
                     // Reset Intake Components
-                    if (inSequence && timer(10000, 0))
+                    if (intake_To_Outtake && timer(10000, 0))
                     {
                         linearSlide_Servo_Position = 0.7;
                         rotateIntake_Servo_Position = 0;
-                        //inSequence = false;
+                        intake_To_Outtake = false;
                         //timer(0, 0);
                         state = State.OUTTAKE;
                     }
@@ -167,15 +168,15 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (gamepad1.right_bumper)
                     {
                         outtake_Servo_Position = 0.9;
-                        //inSequence = true;
+                        outtake_To_Intake = true;
                         timer(0, 1);
                     }
                     // Wait, then return to Intake
-                    if (inSequence && timer(12000, 1))
+                    if (outtake_To_Intake && timer(12000, 1))
                     {
                         outtake_Servo_Position = 0.4;
                         linearSlide_Motor_Position = 500; // IDK CHECK
-                        //inSequence = false;
+                        outtake_To_Intake = false;
                         //timer(0, 1);
                         state = State.INTAKE;
                     }
@@ -241,7 +242,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         telemetry.addData("RunTime[1]-#: ", runtime.milliseconds() - stopTime[1]);
         telemetry.addData("RunTime[0]-# tf: ", runtime.milliseconds() - stopTime[0] > 500);
         telemetry.addData("RunTime[1]-# tf: ", runtime.milliseconds() - stopTime[1] > 500);
-        telemetry.addData("inSequence: ", inSequence);
+        telemetry.addData("intake_To_Outtake: ", intake_To_Outtake);
         telemetry.addLine();
         telemetry.addData("leftTop_Motor Power: ", leftTop_Motor.getPower());
         telemetry.addData("leftTop_Motor Velocity: ", leftTop_Motor.getVelocity());

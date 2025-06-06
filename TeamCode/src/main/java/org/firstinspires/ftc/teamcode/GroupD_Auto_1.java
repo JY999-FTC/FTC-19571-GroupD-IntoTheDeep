@@ -27,6 +27,9 @@ public class GroupD_Auto_1 extends LinearOpMode {
     DcMotorEx rightTop_Motor;
     DcMotorEx rightBot_Motor;
     DcMotorEx linearSlide_Motor; // IDK CHECK
+    DcMotor back_Encoder;
+    DcMotor left_Encoder;
+    DcMotor right_Encoder;
 
     // Servo declarations
     CRServo leftIntake_Servo;
@@ -49,6 +52,7 @@ public class GroupD_Auto_1 extends LinearOpMode {
     double[] stopTime = new double[2]; // change to array to have multiple timers
     double driveTrain_Factor = 0.5; // Motor Power Multiplied by this
     int linearSlide_Motor_Position = 100; // Start at Bottom IDK CHECK
+    double Odometry_Inches_Per_Count = 0.001975; // 0.001975 inches (3.95 inches / 2000 counts)
     double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
     double linearSlide_Servo_Position = 0.7; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
@@ -64,6 +68,10 @@ public class GroupD_Auto_1 extends LinearOpMode {
         rightBot_Motor = hardwareMap.get(DcMotorEx.class, "rightBot_Motor");
         linearSlide_Motor = hardwareMap.get(DcMotorEx.class, "linearSlide_Motor");
 
+        back_Encoder = hardwareMap.get(DcMotor.class, "back_Encoder");
+        left_Encoder = hardwareMap.get(DcMotor.class, "left_Encoder");
+        right_Encoder = hardwareMap.get(DcMotor.class, "right_Encoder");
+
         leftIntake_Servo = hardwareMap.get(CRServo.class,"leftIntake_Servo");
         rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
         //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
@@ -77,6 +85,10 @@ public class GroupD_Auto_1 extends LinearOpMode {
         leftBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         //rightTop_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBot_Motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //back_Encoder.setDirection(DcMotorSimple.Direction.REVERSE);
+        //left_Encoder.setDirection(DcMotorSimple.Direction.REVERSE);
+        //right_Encoder.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Reset the linear slide
         linearSlide_Motor.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -168,15 +168,16 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (gamepad1.right_bumper)
                     {
                         outtake_Servo_Position = 0.9;
-                        outtake_To_Intake = true;
+                        //outtake_To_Intake = true;
                         timer(0, 1);
                     }
                     // Wait, then return to Intake
-                    if (outtake_To_Intake && timer(12000, 1))
+                    if (//outtake_To_Intake &&
+                        timer(12000, 1))
                     {
                         outtake_Servo_Position = 0.4;
                         linearSlide_Motor_Position = 500; // IDK CHECK
-                        outtake_To_Intake = false;
+                        //outtake_To_Intake = false;
                         //timer(0, 1);
                         state = State.INTAKE;
                     }

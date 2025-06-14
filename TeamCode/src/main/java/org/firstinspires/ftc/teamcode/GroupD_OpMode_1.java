@@ -31,7 +31,8 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     CRServo rightIntake_Servo;
     Servo blockIntake_Servo;
     Servo rotateIntake_Servo; // 0-1 (intake - outtake)
-    Servo linearSlide_Servo; // 0.1-0.7 (Extended - Collapsed)
+    Servo left_LinearSlide_Servo; // 0.1-0.7 (Extended - Collapsed)
+    Servo right_LinearSlide_Servo;
     Servo outtake_Servo; // 0.4-0.9 (Down - Up)
 
     // Sensor declarations
@@ -44,12 +45,13 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     }
     State state = State.INTAKE; // a Instance of State
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
-    double[] stopTime = new double[2]; // change to array to have multiple timers
+    double[] stopTime = new double[20]; // change to array to have multiple timers
     double driveTrain_Factor = 1; // Motor Power Multiplied by this
     int linearSlide_Motor_Position = 500; // Start at Bottom
     double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
-    double linearSlide_Servo_Position = 0.5; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double left_LinearSlide_Servo_Position = 0.6; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double right_LinearSlide_Servo_Position = 0.2;
     double outtake_Servo_Position = 0.35; // Start at Down 0.4-0.9 (Down - Up)
     boolean intake_To_Outtake = false;
     boolean outtake_To_Intake = false;
@@ -68,7 +70,8 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
         //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
         rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
-        linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlide_Servo");
+        left_LinearSlide_Servo = hardwareMap.get(Servo.class,"left_LinearSlide_Servo");
+        right_LinearSlide_Servo = hardwareMap.get(Servo.class,"right_LinearSlide_Servo");
         outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
         color_Sensor = hardwareMap.get(ColorSensor.class,"color_Sensor");
 
@@ -121,19 +124,27 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                         rotateIntake_Servo_Position = 0; // Intake
 
                     // Linear Slide Position based on stick
-                    linearSlide_Servo_Position += gamepad2.left_stick_y * 0.05; // 0.1-0.7 (Extended - Collapsed)
+                    left_LinearSlide_Servo_Position += gamepad2.left_stick_y * 0.02; // 0.1-0.7 (Extended - Collapsed)
+                    right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position; // 0.7-0.1 (Collapsed - Extended)
 
                     // Make Sure its Within The Parameters
-                    if (linearSlide_Servo_Position > 0.65)
-                        linearSlide_Servo_Position = 0.65;
-                    else if (linearSlide_Servo_Position < 0.15)
-                        linearSlide_Servo_Position = 0.15;
+                    if (left_LinearSlide_Servo_Position > 0.7)
+                        left_LinearSlide_Servo_Position = 0.7;
+                    else if (left_LinearSlide_Servo_Position < 0.1)
+                        left_LinearSlide_Servo_Position = 0.1;
+
+                    // CHECK
+                    if (right_LinearSlide_Servo_Position > 0.7)
+                        right_LinearSlide_Servo_Position = 0.7;
+                    else if (right_LinearSlide_Servo_Position < 0.1)
+                        right_LinearSlide_Servo_Position = 0.1;
 
                     // Outtake Sequence
                     // Move the Sample near the Outtake
                     if (gamepad2.y)
                     {
-                        linearSlide_Servo_Position = 0.5; // CHECK IDK
+                        left_LinearSlide_Servo_Position = 0.5; // CHECK IDK
+                        right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
                         rotateIntake_Servo_Position = 0;
                         intake_To_Outtake = true;
                         timer(0, 0);
@@ -154,7 +165,8 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     // Reset Intake Components
                     if (intake_To_Outtake && timer(10000, 0))
                     {
-                        linearSlide_Servo_Position = 0.7;
+                        left_LinearSlide_Servo_Position = 0.7;
+                        right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
                         rotateIntake_Servo_Position = 0;
                         intake_To_Outtake = false;
                         //timer(0, 0);
@@ -192,7 +204,8 @@ public class GroupD_OpMode_1 extends LinearOpMode {
             rightIntake_Servo.setPower(-twoIntake_Servo_Power);
 
             rotateIntake_Servo.setPosition(rotateIntake_Servo_Position);
-            linearSlide_Servo.setPosition(linearSlide_Servo_Position);
+            left_LinearSlide_Servo.setPosition(left_LinearSlide_Servo_Position);
+            right_LinearSlide_Servo.setPosition(right_LinearSlide_Servo_Position);
             outtake_Servo.setPosition(outtake_Servo_Position);
 
             updateTelemetry();
@@ -271,8 +284,10 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         telemetry.addData("rotateIntake_Servo: ", rotateIntake_Servo.getPosition());
         telemetry.addData("rotateIntake_Servo_Position: ", rotateIntake_Servo_Position);
         telemetry.addLine();
-        telemetry.addData("linearSlide_Servo: ", linearSlide_Servo.getPosition());
-        telemetry.addData("linearSlide_Servo_Position: ", linearSlide_Servo_Position);
+        telemetry.addData("left_LinearSlide_Servo: ", left_LinearSlide_Servo.getPosition());
+        telemetry.addData("left_LinearSlide_Servo_Position: ", left_LinearSlide_Servo_Position);
+        telemetry.addData("right_LinearSlide_Servo: ", right_LinearSlide_Servo.getPosition());
+        telemetry.addData("right_LinearSlide_Servo_Position: ", right_LinearSlide_Servo_Position);
         telemetry.addLine();
         telemetry.addData("outtake_Servo: ", outtake_Servo.getPosition());
         telemetry.addData("outtake_Servo_Position: ", outtake_Servo_Position);

@@ -68,15 +68,15 @@ public class GroupD_Auto_1 extends LinearOpMode {
         rightBot_Motor = hardwareMap.get(DcMotorEx.class, "rightBot_Motor");
         linearSlide_Motor = hardwareMap.get(DcMotorEx.class, "linearSlide_Motor");
 
-        back_Encoder = hardwareMap.get(DcMotor.class, "back_Encoder");
-        left_Encoder = hardwareMap.get(DcMotor.class, "left_Encoder");
-        right_Encoder = hardwareMap.get(DcMotor.class, "right_Encoder");
+        //back_Encoder = hardwareMap.get(DcMotor.class, "back_Encoder");
+        //left_Encoder = hardwareMap.get(DcMotor.class, "left_Encoder");
+        //right_Encoder = hardwareMap.get(DcMotor.class, "right_Encoder");
 
         leftIntake_Servo = hardwareMap.get(CRServo.class,"leftIntake_Servo");
         rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
         //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
         rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
-        linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlide_Servo");
+        linearSlide_Servo = hardwareMap.get(Servo.class,"left_LinearSlide_Servo");
         outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
         color_Sensor = hardwareMap.get(ColorSensor.class,"color_Sensor");
 
@@ -201,8 +201,8 @@ public class GroupD_Auto_1 extends LinearOpMode {
         telemetry.addData("rotateIntake_Servo: ", rotateIntake_Servo.getPosition());
         telemetry.addData("rotateIntake_Servo_Position: ", rotateIntake_Servo_Position);
         telemetry.addLine();
-        telemetry.addData("linearSlide_Servo: ", linearSlide_Servo.getPosition());
-        telemetry.addData("linearSlide_Servo_Position: ", linearSlide_Servo_Position);
+        telemetry.addData("left_LinearSlide_Servo: ", linearSlide_Servo.getPosition());
+        telemetry.addData("left_LinearSlide_Servo_Position: ", linearSlide_Servo_Position);
         telemetry.addLine();
         telemetry.addData("outtake_Servo: ", outtake_Servo.getPosition());
         telemetry.addData("outtake_Servo_Position: ", outtake_Servo_Position);

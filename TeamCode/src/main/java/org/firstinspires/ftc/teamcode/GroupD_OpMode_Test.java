@@ -31,7 +31,8 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     CRServo rightIntake_Servo;
     Servo blockIntake_Servo;
     Servo rotateIntake_Servo; // 0-1 (intake - outtake)
-    Servo linearSlide_Servo; // 0.1-0.7 (Extended - Collapsed)
+    Servo left_LinearSlide_Servo; // 0.1-0.7 (Extended - Collapsed)
+    Servo right_LinearSlide_Servo;
     Servo outtake_Servo; // 0.4-0.9 (Down - Up)
 
     // Sensor declarations
@@ -39,12 +40,13 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
     // Variable declarations
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
-    double[] stopTime = new double[10]; // change to array to have multiple timers
+    double[] stopTime = new double[20]; // change to array to have multiple timers
     int driveTrain_Factor = 1;
     int linearSlide_Motor_Position = 0;
     double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0.5;
-    double linearSlide_Servo_Position = 0.5;
+    double left_LinearSlide_Servo_Position = 0.5;
+    double right_LinearSlide_Servo_Position = 0.5;
     double outtake_Servo_Position = 0.6;
     int sample_Color = 0; // 1 = yellow 2 = red 3 = blue 0 = idk none
 
@@ -62,7 +64,8 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
         //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
         rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
-        linearSlide_Servo = hardwareMap.get(Servo.class,"linearSlide_Servo");
+        left_LinearSlide_Servo = hardwareMap.get(Servo.class,"left_LinearSlide_Servo");
+        right_LinearSlide_Servo = hardwareMap.get(Servo.class,"right_LinearSlide_Servo");
         outtake_Servo = hardwareMap.get(Servo.class,"outtake_Servo");
         color_Sensor = hardwareMap.get(ColorSensor.class,"color_Sensor");
 
@@ -132,27 +135,40 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             }
             if (gamepad2.dpad_left && timer(500, 5))
             {
-                linearSlide_Servo_Position += 0.1;
+                left_LinearSlide_Servo_Position += 0.1;
                 timer(0, 5);
                 //sleep(200);
             }
 
             if (gamepad2.dpad_right && timer(500, 6))
             {
-                linearSlide_Servo_Position -= 0.1;
+                left_LinearSlide_Servo_Position -= 0.1;
                 timer(0, 6);
+                //sleep(200);
+            }
+            if (gamepad2.a && timer(500, 5))
+            {
+                right_LinearSlide_Servo_Position += 0.1;
+                timer(0, 7);
+                //sleep(200);
+            }
+
+            if (gamepad2.b && timer(500, 6))
+            {
+                right_LinearSlide_Servo_Position -= 0.1;
+                timer(0, 8);
                 //sleep(200);
             }
             if (gamepad2.dpad_up && timer(500, 7))
             {
                 outtake_Servo_Position += 0.1;
-                timer(0, 7);
+                timer(0, 9);
                 //sleep(200);
             }
             if (gamepad2.dpad_down && timer(500, 8))
             {
                 outtake_Servo_Position -= 0.1;
-                timer(0, 8);
+                timer(0, 10);
                 //sleep(200);
             }
 
@@ -164,7 +180,8 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             moveCRServo(rightIntake_Servo, twoIntake_Servo_Power);
 
             moveServo(rotateIntake_Servo, rotateIntake_Servo_Position);
-            moveServo(linearSlide_Servo, linearSlide_Servo_Position);
+            moveServo(left_LinearSlide_Servo, left_LinearSlide_Servo_Position);
+            moveServo(right_LinearSlide_Servo, right_LinearSlide_Servo_Position);
             moveServo(outtake_Servo, outtake_Servo_Position);
 
 
@@ -275,8 +292,10 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         telemetry.addData("rotateIntake_Servo: ", rotateIntake_Servo.getPosition());
         telemetry.addData("rotateIntake_Servo_Position: ", rotateIntake_Servo_Position);
         telemetry.addLine();
-        telemetry.addData("linearSlide_Servo: ", linearSlide_Servo.getPosition());
-        telemetry.addData("linearSlide_Servo_Position: ", linearSlide_Servo_Position);
+        telemetry.addData("left_LinearSlide_Servo: ", left_LinearSlide_Servo.getPosition());
+        telemetry.addData("left_LinearSlide_Servo_Position: ", left_LinearSlide_Servo_Position);
+        telemetry.addData("right_LinearSlide_Servo: ", right_LinearSlide_Servo.getPosition());
+        telemetry.addData("right_LinearSlide_Servo_Position: ", right_LinearSlide_Servo_Position);
         telemetry.addLine();
         telemetry.addData("outtake_Servo: ", outtake_Servo.getPosition());
         telemetry.addData("outtake_Servo_Position: ", outtake_Servo_Position);

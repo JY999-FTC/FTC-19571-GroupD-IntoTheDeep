@@ -123,7 +123,7 @@ public class GroupD_Auto_1 extends LinearOpMode {
             rightTop_Motor.setPower(0.5);
             rightBot_Motor.setPower(0.5);
 
-            sleep(2000);
+            sleep(1500);
 
             leftTop_Motor.setPower(0);
             leftBot_Motor.setPower(0);

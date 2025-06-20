@@ -88,7 +88,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide_Motor.setTargetPosition(0);
         linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide_Motor.setVelocity(600);
+        linearSlide_Motor.setVelocity(800);
 
         // When motor has zero power what does it do? BRAKE!!!
         leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -150,20 +150,20 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                         timer(0, 0);
                     }
                     // Transfer the Sample to the Outtake
-                    if (intake_To_Outtake && timer(5000, 0))
+                    if (intake_To_Outtake && timer(3000, 0))
                     {
                         twoIntake_Servo_Power = 0.5;
                         //timer(0, 0);
                     }
                     // Raise the Linear Slide to Outtake
-                    if (intake_To_Outtake && timer(8000, 0))
+                    if (intake_To_Outtake && timer(5000, 0))
                     {
                         twoIntake_Servo_Power = 0;
-                        linearSlide_Motor_Position = 2000; // IDK CHECK
+                        linearSlide_Motor_Position = 1000; // IDK CHECK
                         //timer(0, 0);
                     }
                     // Reset Intake Components
-                    if (intake_To_Outtake && timer(10000, 0))
+                    if (intake_To_Outtake && timer(8000, 0))
                     {
                         left_LinearSlide_Servo_Position = 0.7;
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
@@ -185,7 +185,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     }
                     // Wait, then return to Intake
                     if (//outtake_To_Intake &&
-                        timer(12000, 1))
+                        timer(3000, 1))
                     {
                         outtake_Servo_Position = 0.4;
                         linearSlide_Motor_Position = 500; // IDK CHECK
@@ -198,7 +198,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
             // Move the Motors & Servos (Define How move in upper code then move here so less code required)
             linearSlide_Motor.setTargetPosition(linearSlide_Motor_Position);
-            linearSlide_Motor.setVelocity(800);
+            //linearSlide_Motor.setVelocity(800);
 
             leftIntake_Servo.setPower(twoIntake_Servo_Power);
             rightIntake_Servo.setPower(-twoIntake_Servo_Power);

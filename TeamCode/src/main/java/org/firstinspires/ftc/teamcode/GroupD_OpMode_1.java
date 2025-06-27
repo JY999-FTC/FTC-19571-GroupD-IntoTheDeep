@@ -47,10 +47,10 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
     double[] stopTime = new double[20]; // change to array to have multiple timers
     double driveTrain_Factor = 1; // Motor Power Multiplied by this
-    int linearSlide_Motor_Position = 350; // Start at Bottom
+    int linearSlide_Motor_Position = 400; // Start at Bottom
     double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
-    double left_LinearSlide_Servo_Position = 0.5; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double left_LinearSlide_Servo_Position = 0.4; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
     double right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position; // 0.8 - left or Start at Collapsed 0.7-0.1 (Extended - Collapsed)
     double outtake_Servo_Position = 0.35; // Start at Down 0.4-0.9 (Down - Up)
     boolean intake_To_Outtake = false;
@@ -105,7 +105,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         sleep(1000);
         rotateIntake_Servo.setPosition(0.4);
         sleep(800);
-        linearSlide_Motor.setTargetPosition(350);
+        linearSlide_Motor.setTargetPosition(400);
         sleep(1000);
 
         // ready to start!
@@ -161,7 +161,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     // Move the Sample near the Outtake
                     if (gamepad2.y)
                     {
-                        left_LinearSlide_Servo_Position = 0.5; // CHECK IDK
+                        left_LinearSlide_Servo_Position = 0.4; // CHECK TO TOUCH OUTTAKE
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
                         rotateIntake_Servo_Position = 0;
                         intake_To_Outtake = true;
@@ -170,22 +170,22 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     // Transfer the Sample to the Outtake
                     if (intake_To_Outtake && timer(1000, 0))
                     {
-                        twoIntake_Servo_Power = -0.5;
+                        twoIntake_Servo_Power = -0.3;
                         //timer(0, 0);
                     }
                     // Raise the Linear Slide to Outtake
                     if (intake_To_Outtake && timer(2000, 0))
                     {
                         twoIntake_Servo_Power = 0;
-                        linearSlide_Motor_Position = 2000; // IDK CHECK
+                        linearSlide_Motor_Position = 2500; // IDK CHECK
                         //timer(0, 0);
                     }
                     // Reset Intake Components
                     if (intake_To_Outtake && timer(5000, 0))
                     {
-                        left_LinearSlide_Servo_Position = 0.7;
+                        left_LinearSlide_Servo_Position = 0.7; // Collapsed
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
-                        rotateIntake_Servo_Position = 0;
+                        rotateIntake_Servo_Position = 1; // Set to intake b/c only outtake left
                         intake_To_Outtake = false;
                         //timer(0, 0);
                         state = State.OUTTAKE;
@@ -197,15 +197,17 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     // Move to outtake
                     if (gamepad1.right_bumper)
                     {
-                        outtake_Servo_Position = 0.9;
+                        outtake_Servo_Position = 0.9; // Outtake Release
                         outtake_To_Intake = true;
                         timer(0, 1);
                     }
                     // Wait, then return to Intake
-                    if (outtake_To_Intake && timer(2500, 1))
+                    if (outtake_To_Intake && timer(2000, 1))
                     {
-                        outtake_Servo_Position = 0.4;
-                        linearSlide_Motor_Position = 350; // IDK CHECK
+                        left_LinearSlide_Servo_Position = 0.4; // Allow enough Space for Outtake
+                        right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
+                        outtake_Servo_Position = 0.4; // Outtake Take in
+                        linearSlide_Motor_Position = 400;
                         outtake_To_Intake = false;
                         //timer(0, 1);
                         state = State.INTAKE;

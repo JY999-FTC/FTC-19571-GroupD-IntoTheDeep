@@ -47,14 +47,15 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
     double[] stopTime = new double[20]; // change to array to have multiple timers
     double driveTrain_Factor = 1; // Motor Power Multiplied by this
-    int linearSlide_Motor_Position = 500; // Start at Bottom
+    int linearSlide_Motor_Position = 350; // Start at Bottom
     double twoIntake_Servo_Power = 0;
     double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
-    double left_LinearSlide_Servo_Position = 0.6; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
-    double right_LinearSlide_Servo_Position = 0.2;
+    double left_LinearSlide_Servo_Position = 0.5; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position; // 0.8 - left or Start at Collapsed 0.7-0.1 (Extended - Collapsed)
     double outtake_Servo_Position = 0.35; // Start at Down 0.4-0.9 (Down - Up)
     boolean intake_To_Outtake = false;
     boolean outtake_To_Intake = false;
+    String gameElement_Color = "none";
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -68,7 +69,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
         leftIntake_Servo = hardwareMap.get(CRServo.class,"leftIntake_Servo");
         rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
-        //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
+        blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
         rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
         left_LinearSlide_Servo = hardwareMap.get(Servo.class,"left_LinearSlide_Servo");
         right_LinearSlide_Servo = hardwareMap.get(Servo.class,"right_LinearSlide_Servo");
@@ -88,13 +89,27 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         linearSlide_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide_Motor.setTargetPosition(0);
         linearSlide_Motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide_Motor.setVelocity(800);
+        linearSlide_Motor.setVelocity(1000);
 
         // When motor has zero power what does it do? BRAKE!!!
         leftTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBot_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightTop_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBot_Motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Wait for setup
+        waitTelemetry();
+
+        // Set up robot so that intake/outtake dont collide or fight
+        linearSlide_Motor.setTargetPosition(1000);
+        sleep(1000);
+        rotateIntake_Servo.setPosition(0.4);
+        sleep(800);
+        linearSlide_Motor.setTargetPosition(350);
+        sleep(1000);
+
+        // ready to start!
+        readyTelemetry();
 
         // Stops and dosent run until you press start
         waitForStart();
@@ -107,6 +122,9 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
             // Drive normally
             driveTrain(gamepad1.right_stick_x, gamepad1.right_stick_y, gamepad1.left_stick_x);
+
+            // CheckColor RGB
+            senseColor(color_Sensor.red(), color_Sensor.green(), color_Sensor.blue());
 
             // This determines Which state it is in and runs the correct one
             switch (state)
@@ -150,20 +168,20 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                         timer(0, 0);
                     }
                     // Transfer the Sample to the Outtake
-                    if (intake_To_Outtake && timer(3000, 0))
+                    if (intake_To_Outtake && timer(1000, 0))
                     {
-                        twoIntake_Servo_Power = 0.5;
+                        twoIntake_Servo_Power = -0.5;
                         //timer(0, 0);
                     }
                     // Raise the Linear Slide to Outtake
-                    if (intake_To_Outtake && timer(5000, 0))
+                    if (intake_To_Outtake && timer(2000, 0))
                     {
                         twoIntake_Servo_Power = 0;
-                        linearSlide_Motor_Position = 1000; // IDK CHECK
+                        linearSlide_Motor_Position = 2000; // IDK CHECK
                         //timer(0, 0);
                     }
                     // Reset Intake Components
-                    if (intake_To_Outtake && timer(8000, 0))
+                    if (intake_To_Outtake && timer(5000, 0))
                     {
                         left_LinearSlide_Servo_Position = 0.7;
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
@@ -180,16 +198,15 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (gamepad1.right_bumper)
                     {
                         outtake_Servo_Position = 0.9;
-                        //outtake_To_Intake = true;
+                        outtake_To_Intake = true;
                         timer(0, 1);
                     }
                     // Wait, then return to Intake
-                    if (//outtake_To_Intake &&
-                        timer(3000, 1))
+                    if (outtake_To_Intake && timer(2500, 1))
                     {
                         outtake_Servo_Position = 0.4;
-                        linearSlide_Motor_Position = 500; // IDK CHECK
-                        //outtake_To_Intake = false;
+                        linearSlide_Motor_Position = 350; // IDK CHECK
+                        outtake_To_Intake = false;
                         //timer(0, 1);
                         state = State.INTAKE;
                     }
@@ -246,6 +263,30 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         return runtime.milliseconds() - stopTime[indexOfTimer] > period;
     }// timer end
 
+    // Sense Color
+    public void senseColor(int r, int g, int b ){
+
+        gameElement_Color = "None"; // To Ground R:50 G:90 B:70 Outtake on top R:116 G:200 B:155 to sky R:202 G:337 B:268
+        if (r > 830 && g > 950 && b > 125)
+            gameElement_Color = "Yellow"; // R:930 G:1050 B: 225
+        else if (r > 280 && g > 120 && b > 20)
+            gameElement_Color = "Red"; // R:380 G:220 B:120
+        else if (r > 0 && g > 90 && b > 320)
+            gameElement_Color = "Blue"; // R:100 G:190 B:420
+    }// Checked Color
+
+    // Telemetry method
+    public void waitTelemetry() {
+        telemetry.addLine("WAIT!!! SETTING UP INTAKE/OUTTAKE");
+        telemetry.update();
+    }//update telemetry end
+
+    // Telemetry method
+    public void readyTelemetry() {
+        telemetry.addLine("Ready to Start!");
+        telemetry.update();
+    }//update telemetry end
+
     // Telemetry method
     public void updateTelemetry() {
         telemetry.addData("State: ", state);
@@ -283,6 +324,8 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         telemetry.addLine();
         telemetry.addData("rotateIntake_Servo: ", rotateIntake_Servo.getPosition());
         telemetry.addData("rotateIntake_Servo_Position: ", rotateIntake_Servo_Position);
+        telemetry.addLine();
+        telemetry.addData("blockIntake_Servo", blockIntake_Servo.getPosition());
         telemetry.addLine();
         telemetry.addData("left_LinearSlide_Servo: ", left_LinearSlide_Servo.getPosition());
         telemetry.addData("left_LinearSlide_Servo_Position: ", left_LinearSlide_Servo_Position);

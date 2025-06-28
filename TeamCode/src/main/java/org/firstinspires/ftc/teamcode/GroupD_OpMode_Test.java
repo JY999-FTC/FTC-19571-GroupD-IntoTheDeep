@@ -36,7 +36,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     Servo outtake_Servo; // 0.4-0.9 (Down - Up)
 
     // Sensor declarations
-    ColorSensor color_Sensor; // yellow: red: blue:
+    ColorSensor color_Sensor;
 
     // Variable declarations
     ElapsedTime runtime = new ElapsedTime(); // time that has passed
@@ -48,7 +48,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
     double left_LinearSlide_Servo_Position = 0.5;
     double right_LinearSlide_Servo_Position = 0.5;
     double outtake_Servo_Position = 0.6;
-    int sample_Color = 0; // 1 = yellow 2 = red 3 = blue 0 = idk none
+    String gameElement_Color = "None";
 
     //@Override
     public void runOpMode() throws InterruptedException {
@@ -62,7 +62,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
 
         leftIntake_Servo = hardwareMap.get(CRServo.class,"leftIntake_Servo");
         rightIntake_Servo = hardwareMap.get(CRServo.class,"rightIntake_Servo");
-        //blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
+        blockIntake_Servo = hardwareMap.get(Servo.class,"blockIntake_Servo");
         rotateIntake_Servo = hardwareMap.get(Servo.class,"rotateIntake_Servo");
         left_LinearSlide_Servo = hardwareMap.get(Servo.class,"left_LinearSlide_Servo");
         right_LinearSlide_Servo = hardwareMap.get(Servo.class,"right_LinearSlide_Servo");
@@ -107,7 +107,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
             twoIntake_Servo_Power = gamepad2.right_trigger - gamepad2.left_trigger;
 
             // determine the color of the sample
-            sample_Color = determineColor(color_Sensor.red(), color_Sensor.green(), color_Sensor.blue());
+            senseColor(color_Sensor.red(), color_Sensor.green(), color_Sensor.blue());
 
             if (gamepad2.left_bumper && timer(500, 1))
             {
@@ -242,26 +242,16 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         return runtime.milliseconds() - stopTime[indexOfTimer] > period;
     }// timer end
 
-    // Determine the color of the sample
-    // 1 = yellow 2 = red 3 = blue 0 = idk none
-    public int determineColor(double red, double blue, double green) {
-        if (red > 50 && blue < 10 && green < 10)
-        {
-            return 2;
-        }
-        if (red < 10 && blue > 50 && green < 10)
-        {
-            return 3;
-        }
-        if (red < 30 && blue < 30 && green < 30)
-        {
-            return 1;
-        }
-        else {
-            return 0;
-        }
+    public void senseColor(int r, int g, int b ){
 
-    } // determine color end
+        gameElement_Color = "None"; // To Ground R:50 G:90 B:70 Outtake on top R:116 G:200 B:155 to sky R:202 G:337 B:268
+        if (r > 830 && g > 950 && b > 125)
+            gameElement_Color = "Yellow"; // R:930 G:1050 B: 225
+        else if (r > 280 && g > 120 && b > 20)
+            gameElement_Color = "Red"; // R:380 G:220 B:120
+        else if (r > 0 && g > 90 && b > 320)
+            gameElement_Color = "Blue"; // R:100 G:190 B:420
+    }// Checked Color
 
     // Telemetry method
     public void updateTelemetry() {
@@ -300,7 +290,7 @@ public class GroupD_OpMode_Test extends LinearOpMode {
         telemetry.addData("outtake_Servo: ", outtake_Servo.getPosition());
         telemetry.addData("outtake_Servo_Position: ", outtake_Servo_Position);
         telemetry.addLine();
-        telemetry.addData("sample_Color: ", sample_Color);
+        telemetry.addData("sample_Color: ", gameElement_Color);
         telemetry.addData("Red: ", color_Sensor.red());
         telemetry.addData("Green: ", color_Sensor.green());
         telemetry.addData("Blue: ", color_Sensor.blue());

@@ -36,7 +36,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     Servo outtake_Servo; // 0.4-0.9 (Down - Up)
 
     // Sensor declarations
-    ColorSensor color_Sensor; // No use rn
+    ColorSensor color_Sensor;
 
     // Variable declarations
     public enum State { // State to know what code to run
@@ -136,9 +136,9 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     twoIntake_Servo_Power = gamepad2.right_trigger - gamepad2.left_trigger;
 
                     // Move the Whole Intake Assembly to Intake or Transfer to Outtake
-                    if (gamepad2.dpad_up)
+                    if (gamepad2.y)
                         rotateIntake_Servo_Position = 1; // Transfer Outtake
-                    else if (gamepad2.dpad_down)
+                    else if (gamepad2.a)
                         rotateIntake_Servo_Position = 0; // Intake
 
                     // Linear Slide Position based on stick
@@ -159,7 +159,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
 
                     // Outtake Sequence
                     // Move the Sample near the Outtake
-                    if (gamepad2.y)
+                    if (gamepad2.dpad_up)
                     {
                         left_LinearSlide_Servo_Position = 0.4; // CHECK TO TOUCH OUTTAKE
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
@@ -177,7 +177,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (intake_To_Outtake && timer(2000, 0))
                     {
                         twoIntake_Servo_Power = 0;
-                        linearSlide_Motor_Position = 2500; // IDK CHECK
+                        linearSlide_Motor_Position = 2300; // IDK CHECK
                         //timer(0, 0);
                     }
                     // Reset Intake Components
@@ -340,6 +340,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
         telemetry.addData("Red: ", color_Sensor.red());
         telemetry.addData("Green: ", color_Sensor.green());
         telemetry.addData("Blue: ", color_Sensor.blue());
+        telemetry.addData("Color: ", gameElement_Color);
         telemetry.addLine();
         telemetry.update();
     }//update telemetry end

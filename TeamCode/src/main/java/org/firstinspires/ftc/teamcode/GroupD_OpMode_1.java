@@ -49,10 +49,10 @@ public class GroupD_OpMode_1 extends LinearOpMode {
     double driveTrain_Factor = 1; // Motor Power Multiplied by this
     int linearSlide_Motor_Position = 400; // Start at Bottom
     double twoIntake_Servo_Power = 0;
-    double rotateIntake_Servo_Position = 0; // Start at Intake 0-1 (intake - outtake)
-    double left_LinearSlide_Servo_Position = 0.4; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
+    double rotateIntake_Servo_Position = 0.05; // Start at Intake 0-1 (intake - outtake)
+    double left_LinearSlide_Servo_Position = 0.3; // Start at Collapsed 0.1-0.7 (Extended - Collapsed)
     double right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position; // 0.8 - left or Start at Collapsed 0.7-0.1 (Extended - Collapsed)
-    double outtake_Servo_Position = 0.35; // Start at Down 0.4-0.9 (Down - Up)
+    double outtake_Servo_Position = 0.38; // Start at Down 0.4-0.9 (Down - Up)
     boolean intake_To_Outtake = false;
     boolean outtake_To_Intake = false;
     String gameElement_Color = "none";
@@ -139,7 +139,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (gamepad2.y)
                         rotateIntake_Servo_Position = 1; // Transfer Outtake
                     else if (gamepad2.a)
-                        rotateIntake_Servo_Position = 0; // Intake
+                        rotateIntake_Servo_Position = 0.05; // Intake
 
                     // Linear Slide Position based on stick
                     left_LinearSlide_Servo_Position += gamepad2.left_stick_y * 0.02; // 0.1-0.7 (Extended - Collapsed)
@@ -161,9 +161,10 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     // Move the Sample near the Outtake
                     if (gamepad2.dpad_up)
                     {
-                        left_LinearSlide_Servo_Position = 0.4; // CHECK TO TOUCH OUTTAKE
+                        left_LinearSlide_Servo_Position = 0.3; // CHECK TO TOUCH OUTTAKE
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
-                        rotateIntake_Servo_Position = 0;
+                        rotateIntake_Servo_Position = 0.05;
+                        driveTrain_Factor = 0.5;
                         intake_To_Outtake = true;
                         timer(0, 0);
                     }
@@ -177,7 +178,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (intake_To_Outtake && timer(2000, 0))
                     {
                         twoIntake_Servo_Power = 0;
-                        linearSlide_Motor_Position = 2300; // IDK CHECK
+                        linearSlide_Motor_Position = 2250; // IDK CHECK
                         //timer(0, 0);
                     }
                     // Reset Intake Components
@@ -198,6 +199,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     if (gamepad1.right_bumper)
                     {
                         outtake_Servo_Position = 0.9; // Outtake Release
+                        driveTrain_Factor = 1;
                         outtake_To_Intake = true;
                         timer(0, 1);
                     }
@@ -206,7 +208,7 @@ public class GroupD_OpMode_1 extends LinearOpMode {
                     {
                         left_LinearSlide_Servo_Position = 0.4; // Allow enough Space for Outtake
                         right_LinearSlide_Servo_Position = 0.8 - left_LinearSlide_Servo_Position;
-                        outtake_Servo_Position = 0.4; // Outtake Take in
+                        outtake_Servo_Position = 0.38; // Outtake Take in
                         linearSlide_Motor_Position = 400;
                         outtake_To_Intake = false;
                         //timer(0, 1);
